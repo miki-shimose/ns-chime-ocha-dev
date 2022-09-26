@@ -39,7 +39,7 @@
     </head>
     <body>
         <div id="content">
-            <h1>N・S高(代々木キャンパス)のチャイム</h1>
+            <h1>N・S高のチャイム</h1>
             <div id="now"><p>チャイムを有効化してください。</p></div>
             <div id="time"></div>
             <div id="button-area">
@@ -104,10 +104,6 @@
                 start.forEach(function(get_ready){
                     ready.push(get_ready -2);
                 });
-
-                console.log(ready);
-                console.log(start);
-                console.log(end);
     
                 if(ready.includes(now_time)){
                     console.log("予鈴");
@@ -123,6 +119,13 @@
                 }
 
                 console.log(display_now_time);
+                
+                let first_period = "プロジェクトN";
+                let second_period = "プロジェクトN";
+                let third_period = "レポート学習";
+                let fourth_period = "英語・異文化理解";
+                let fifth_period = "Nゼミ・基礎科目学習・N予備校";
+                let sixth_period = "プログラミング";
 
                 switch(true){
                     case display_now_time <= 929:
@@ -132,25 +135,25 @@
                         document.getElementById('now').innerHTML = "<p>朝礼中</p>";
                     break;
                     case display_now_time >= 945 && display_now_time <= 1034:
-                        document.getElementById('now').innerHTML = "<p>1時間目</p>";
+                        document.getElementById('now').innerHTML = `<p>1時間目 (${first_period})</p>`;
                     break;
                     case display_now_time >= 1045 && display_now_time <= 1134:
-                        document.getElementById('now').innerHTML = "<p>2時間目</p>";
+                        document.getElementById('now').innerHTML = `<p>2時間目 (${second_period})</p>`;
                     break;
                     case display_now_time >= 1145 && display_now_time <= 1234:
-                        document.getElementById('now').innerHTML = "<p>3時間目</p>";
+                        document.getElementById('now').innerHTML = `<p>3時間目 (${third_period})</p>`;
                     break;
                     case display_now_time >= 1235 && display_now_time <= 1314:
                         document.getElementById('now').innerHTML = "<p>お昼休み</p>";
                     break;
                     case display_now_time >= 1315 && display_now_time <= 1404:
-                        document.getElementById('now').innerHTML = "<p>4時間目</p>";
+                        document.getElementById('now').innerHTML = `<p>4時間目 (${fourth_period})</p>`;
                     break;
                     case display_now_time >= 1415 && display_now_time <= 1504:
-                        document.getElementById('now').innerHTML = "<p>5時間目</p>";
+                        document.getElementById('now').innerHTML = `<p>5時間目 (${fifth_period})</p>`;
                     break;
                     case display_now_time >= 1515 && display_now_time <= 1604:
-                        document.getElementById('now').innerHTML = "<p>6時間目</p>";
+                        document.getElementById('now').innerHTML = `<p>6時間目 (${sixth_period})</p>`;
                     break;
                     case display_now_time >= 1605:
                         document.getElementById('now').innerHTML = "<p>放課後</p>";
