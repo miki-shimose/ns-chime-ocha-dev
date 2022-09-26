@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang=ja>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>チャイム</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <style>
+            button {
+                background-color:#3248a8;
+                color:#fff;
+                padding:20px;
+                border:0;
+                border-radius:15px;
+                width:400px;
+                max-width:100%;
+            }
+            #content {
+                max-width:700px;
+                margin:30px auto;
+            }
+            #now {
+                margin-top:20px;
+                text-align:center;
+                font-size:40px;
+            }
+            #now p {
+                margin:0;
+            }
+            #time {
+                text-align:center;
+                font-size:36px;
+            }
+            #button-area {
+                margin:40px 0 20px 0;
+                text-align:center;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="content">
+            <h1>N・S高(代々木キャンパス)のチャイム</h1>
+            <div id="now"><p>チャイムを有効化してください。</p></div>
+            <div id="time"></div>
+            <div id="button-area">
+                <button id="on">チャイムを有効化</button>
+                <button id="off" style="display:none;">チャイムを無効化</button>
+            </div>
+            <p>9:30, 9:45, 10:45, 11:45, 13:15, 14:15, 15:15に授業開始のチャイムがなります。<br>
+                ※上記時刻の2分前には予鈴がなります。</p>
+            <p>10:35, 11:35, 12:35, 14:05, 15:05, 16:05に授業終了のチャイムがなります。</p>
+        </div>
+        <script>
+            var check_time;
+            const sound = new Audio("https://miki-shimose.github.io/ns-chime/asset/sound.mp3");
+            const sub_sound = new Audio("https://miki-shimose.github.io/ns-chime/asset/sub_sound.mp3");
+
+            document.getElementById("on").addEventListener("click", function(){
+                document.getElementById("on").style.display ="none";
+                document.getElementById("off").style.display ="inline";
+
+                display_get_time = new Date();
+                var display_seconds = "0"+display_get_time.getSeconds();
+                display_seconds = display_seconds.slice(-2);
+                display_seconds = Number(display_seconds + "000");
+
+                console.log(display_seconds+"秒のずれを調整しました。");
+                
+                time_check();
+                setTimeout(first_time_check, 60000 - display_seconds);
+            }, false);
+
+            document.getElementById("off").addEventListener("click", function(){
+                document.getElementById("on").style.display ="inline";
+                document.getElementById("off").style.display ="none";
+                clearInterval(check_time);
+            }, false);
+
+            function first_time_check(){
+                time_check();
+                check_time = setInterval(time_check, 60000);
+            }
+
+            function time_check(){
+                get_time = new Date();
+                var now_hours = "0"+get_time.getHours();
+                var now_minutes = "0"+get_time.getMinutes();
+                console.log(now_hours);
+                console.log(now_minutes);
+
+                now_hours = now_hours.slice(-2);
+                now_minutes = now_minutes.slice(-2);
+
+                document.getElementById('time').innerHTML = `<p>${now_hours}:${now_minutes}</p>`;
+
+                var now_time = Number(String(""+now_hours+now_minutes));
+                var display_now_time = Number(String(""+now_hours+now_minutes));
+                console.log(now_time);
+
+                var ready = [];
+                var start = [930, 945, 1045, 1145, 1315, 1415, 1515];
+                var end = [1035, 1135, 1235, 1405, 1505, 1605];
+
+                start.forEach(function(get_ready){
+                    ready.push(get_ready -2);
+                });
+
+                console.log(ready);
+                console.log(start);
+                console.log(end);
+    
+                if(ready.includes(now_time)){
+                    console.log("予鈴");
+                    sub_sound.play();
+                }
+                if(start.includes(now_time)){
+                    console.log("授業開始");
+                    sound.play();
+                }
+                if(end.includes(now_time)){
+                    console.log("授業終了");
+                    sound.play();
+                }
+
+                console.log(display_now_time);
+
+                switch(true){
+                    case display_now_time <= 929:
+                        document.getElementById('now').innerHTML = "<p>自由時間(朝礼待ち)</p>";
+                    break;
+                    case display_now_time >= 930 && display_now_time <= 944:
+                        document.getElementById('now').innerHTML = "<p>朝礼中</p>";
+                    break;
+                    case display_now_time >= 945 && display_now_time <= 1034:
+                        document.getElementById('now').innerHTML = "<p>1時間目</p>";
+                    break;
+                    case display_now_time >= 1045 && display_now_time <= 1134:
+                        document.getElementById('now').innerHTML = "<p>2時間目</p>";
+                    break;
+                    case display_now_time >= 1145 && display_now_time <= 1234:
+                        document.getElementById('now').innerHTML = "<p>3時間目</p>";
+                    break;
+                    case display_now_time >= 1235 && display_now_time <= 1314:
+                        document.getElementById('now').innerHTML = "<p>お昼休み</p>";
+                    break;
+                    case display_now_time >= 1315 && display_now_time <= 1404:
+                        document.getElementById('now').innerHTML = "<p>4時間目</p>";
+                    break;
+                    case display_now_time >= 1415 && display_now_time <= 1504:
+                        document.getElementById('now').innerHTML = "<p>5時間目</p>";
+                    break;
+                    case display_now_time >= 1515 && display_now_time <= 1604:
+                        document.getElementById('now').innerHTML = "<p>6時間目</p>";
+                    break;
+                    case display_now_time >= 1605:
+                        document.getElementById('now').innerHTML = "<p>放課後</p>";
+                    break;
+                    default:
+                        document.getElementById('now').innerHTML = "<p>休み時間</p>";
+                }
+            }
+        </script>
+    </body>
+</html>
