@@ -62,9 +62,8 @@
                 display_get_time = new Date();
                 var display_seconds = "0"+display_get_time.getSeconds();
                 display_seconds = display_seconds.slice(-2);
+                console.log((60 - display_seconds)+"秒のずれを調整しました。");
                 display_seconds = Number(display_seconds + "000");
-
-                console.log(display_seconds+"秒のずれを調整しました。");
                 
                 time_check();
                 setTimeout(first_time_check, 60000 - display_seconds);
