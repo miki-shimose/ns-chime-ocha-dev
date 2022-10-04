@@ -85,11 +85,11 @@
                 get_time = new Date();
                 var now_hours = "0"+get_time.getHours();
                 var now_minutes = "0"+get_time.getMinutes();
-                console.log(now_hours);
-                console.log(now_minutes);
 
                 now_hours = now_hours.slice(-2);
                 now_minutes = now_minutes.slice(-2);
+                
+                console.log(now_hours+":"+now_minutes+":"+get_time.getSeconds())
 
                 document.getElementById('time').innerHTML = `<p>${now_hours}:${now_minutes}</p>`;
 
