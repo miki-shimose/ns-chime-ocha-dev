@@ -52,6 +52,7 @@
         </div>
         <script>
             var check_time;
+            first_flag = true;
             const sound = new Audio("https://miki-shimose.github.io/ns-chime/asset/sound.mp3");
             const sub_sound = new Audio("https://miki-shimose.github.io/ns-chime/asset/sub_sound.mp3");
 
@@ -59,7 +60,7 @@
                 document.getElementById("on").style.display ="none";
                 document.getElementById("off").style.display ="inline";
 
-                time_fix();
+                first_time_check();
             }, false);
 
             document.getElementById("off").addEventListener("click", function(){
@@ -80,6 +81,7 @@
             }
             
             function first_time_check(){
+                first_flag = true;
                 time_check();
                 check_time = setInterval(time_check, 60000);
             }
@@ -94,11 +96,15 @@
                 
                 console.log(now_hours+":"+now_minutes+":"+get_time.getSeconds())
 
-                if(get_time.getSeconds() != 0){
-                    console.log(get_time.getSeconds()+"秒のズレが発生しました。");
-                    clearInterval(check_time);
-                    time_fix();
-                    return;
+                if(first_flag != true){
+                    if(get_time.getSeconds() != 0){
+                        console.log(get_time.getSeconds()+"秒のズレが発生しました。");
+                        clearInterval(check_time);
+                        time_fix();
+                        return;
+                    }
+                }else{
+                    first_flag = false;
                 }
                 
                 document.getElementById('time').innerHTML = `<p>${now_hours}:${now_minutes}</p>`;
