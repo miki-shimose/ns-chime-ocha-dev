@@ -59,14 +59,7 @@
                 document.getElementById("on").style.display ="none";
                 document.getElementById("off").style.display ="inline";
 
-                display_get_time = new Date();
-                var display_seconds = "0"+display_get_time.getSeconds();
-                display_seconds = display_seconds.slice(-2);
-                console.log((60 - display_seconds)+"秒のずれを調整しました。");
-                display_seconds = Number(display_seconds + "000");
-                
-                time_check();
-                setTimeout(first_time_check, 60000 - display_seconds);
+                time_fix();
             }, false);
 
             document.getElementById("off").addEventListener("click", function(){
@@ -75,6 +68,17 @@
                 clearInterval(check_time);
             }, false);
 
+            function time_fix(){
+                display_get_time = new Date();
+                var display_seconds = "0"+display_get_time.getSeconds();
+                display_seconds = display_seconds.slice(-2);
+                console.log((60 - display_seconds)+"秒のずれを調整しました。");
+                display_seconds = Number(display_seconds + "000");
+                
+                time_check();
+                setTimeout(first_time_check, 60000 - display_seconds);
+            }
+            
             function first_time_check(){
                 time_check();
                 check_time = setInterval(time_check, 60000);
@@ -90,9 +94,16 @@
                 
                 console.log(now_hours+":"+now_minutes+":"+get_time.getSeconds())
 
+                if(get_time.getSeconds() != 0){
+                    console.log(get_time.getSeconds()+"秒のズレが発生しました。");
+                    clearInterval(check_time);
+                    time_fix();
+                    return;
+                }
+                
                 document.getElementById('time').innerHTML = `<p>${now_hours}:${now_minutes}</p>`;
 
-                var now_time = Number(String(""+now_hours+now_minutes));
+                //var now_time = Number(String(""+now_hours+now_minutes));
                 var display_now_time = Number(String(""+now_hours+now_minutes));
                 console.log(now_time);
 
@@ -104,20 +115,19 @@
                     ready.push(get_ready -2);
                 });
     
-                if(ready.includes(now_time)){
+                //if(ready.includes(now_time)){
+                if(ready.includes(display_now_time)){
                     console.log("予鈴");
                     sub_sound.play();
                 }
-                if(start.includes(now_time)){
+                if(start.includes(display_now_time)){
                     console.log("授業開始");
                     sound.play();
                 }
-                if(end.includes(now_time)){
+                if(end.includes(display_now_time)){
                     console.log("授業終了");
                     sound.play();
                 }
-
-                console.log(display_now_time);
                 
                 let first_period = "プロジェクトN";
                 let second_period = "プロジェクトN";
