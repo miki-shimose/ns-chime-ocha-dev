@@ -60,7 +60,7 @@
                 document.getElementById("on").style.display ="none";
                 document.getElementById("off").style.display ="inline";
 
-                first_time_check();
+                time_fix();
             }, false);
 
             document.getElementById("off").addEventListener("click", function(){
@@ -96,15 +96,13 @@
                 
                 console.log(now_hours+":"+now_minutes+":"+get_time.getSeconds())
 
-                if(first_flag != true){
-                    if(get_time.getSeconds() != 0){
-                        console.log(get_time.getSeconds()+"秒のズレが発生しました。");
-                        clearInterval(check_time);
-                        time_fix();
-                        return;
-                    }
+                if(get_time.getSeconds() != 0 && first_flag == false){
+                    console.log(get_time.getSeconds()+"秒のズレが発生しました。");
+                    clearInterval(check_time);
+                    time_fix();
+                    return;
                 }else{
-                    first_flag = false;
+                    first_flag = true;
                 }
                 
                 document.getElementById('time').innerHTML = `<p>${now_hours}:${now_minutes}</p>`;
