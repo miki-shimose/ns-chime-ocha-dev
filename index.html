@@ -94,7 +94,8 @@
                 now_hours = now_hours.slice(-2);
                 now_minutes = now_minutes.slice(-2);
                 
-                console.log(now_hours+":"+now_minutes+":"+get_time.getSeconds())
+                console.log(now_hours+":"+now_minutes+":"+get_time.getSeconds());
+                console.log(first_flag);
 
                 if(get_time.getSeconds() != 0 && first_flag == false){
                     console.log(get_time.getSeconds()+"秒のズレが発生しました。");
@@ -104,6 +105,8 @@
                 }else{
                     first_flag = true;
                 }
+                
+                console.log(first_flag);
                 
                 document.getElementById('time').innerHTML = `<p>${now_hours}:${now_minutes}</p>`;
 
